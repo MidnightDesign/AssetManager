@@ -131,4 +131,16 @@ class PathStackResolverTest extends PHPUnit_Framework_TestCase
         $resolver->addPath(null);
     }
 
+    public function testPathIsRawurldecoded()
+    {
+        $name = '_files/file%20with%20spaces';
+        $resolver = new PathStackResolver();
+
+        $mimeResolver = new MimeResolver;
+        $resolver->setMimeResolver($mimeResolver);
+
+        $resolver->addPath(__DIR__ . '/../..');
+        $this->assertInstanceOf('Assetic\Asset\FileAsset', $resolver->resolve($name));
+    }
+
 }

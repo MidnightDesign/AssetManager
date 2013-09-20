@@ -170,6 +170,12 @@ class PathStackResolver implements ResolverInterface, MimeResolverAwareInterface
      */
     public function resolve($name)
     {
+        $nameParts = explode('/', $name);
+        foreach ($nameParts as &$part) {
+            $part = rawurldecode($part);
+        }
+        $name = join('/', $nameParts);
+
         if ($this->isLfiProtectionOn() && preg_match('#\.\.[\\\/]#', $name)) {
             return null;
         }
